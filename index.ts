@@ -12,19 +12,6 @@ const contructHTML = neu => {
   return "<p>" + neu + "</p> <br/>";
 };
 
-// const removeDoubleMatches = (matches: Match[], availableArr: string[]) => {
-//   if (!matches.some(match => !match.isArray())) return matches;
-//   matches.forEach(match => {
-//     return match.toSingleWord();
-//   });
-
-//   let stillAvailable = matches
-//     .filter(match => !match.isArray())
-//     .map(e => e.givenArr)
-//     .flat();
-//   console.log(stillAvailable);
-// };
-
 interface Given {
   atIndex: number;
   char: string;
@@ -68,13 +55,21 @@ class Luecken {
   }
 }
 
+interface Punctiotion {
+  atIndex: number[];
+  char: string;
+}
+
 class Luecke {
   luecke: string;
   givenArr: Given[];
   value: string;
   index: number;
+  punctuation: Punctiotion[] = [];
   constructor(luecke: string, index: number) {
-    this.luecke = luecke;
+    let period = this.getAllAccurancesof([...luecke], ".");
+    this.punctuation.push(period);
+    this.luecke = luecke.replace(/\W+/g, "");
     this.index = index;
     this.givenArr = this.luecke
       .split("")
@@ -94,6 +89,14 @@ class Luecke {
       return sameLen && couldMatch;
     });
   }
+
+  private getAllAccurancesof(array, search) {
+    return array.reduce(function(a, e, i) {
+      if (e === search) a.push(i);
+      return a;
+    }, []);
+  }
+
   toPerfectMatch(given: string[]) {
     let fromGiven = this.matchingwordsFromGiven(given);
     if (fromGiven.length == 1 || this.allEqualAndValid(fromGiven)) {
@@ -101,17 +104,13 @@ class Luecke {
       this;
     }
   }
+  // get valueWithPunction() {
+
+  // }
   private allEqualAndValid = arr => {
     return arr[0] && arr.length > 1 && arr.every(v => v === arr[0]);
   };
 }
-
-// function getAllAccurancesof(array, search) {
-//   return array.reduce(function(a, e, i) {
-//     if (e === search) a.push(i);
-//     return a;
-//   }, []);
-// }
 
 const app = (raetsel: string) => {
   output
@@ -128,10 +127,7 @@ const app = (raetsel: string) => {
   const LUECKENTEXT = DATA[0];
   const WOERTER = DATA[1];
 
-  let LArray = LUECKENTEXT.replace(/\W+/g, " ").split(" "); // TODO DATEN ÜBER SATZZEICHEN IN DER LUECKE KLASSE SPEICHERN
-
-  LArray.pop();
-  console.log(LArray);
+  let LArray = LUECKENTEXT.split(" ");
   let WArray = WOERTER.split(" ");
 
   let matches = LArray.map((l, index) => {
