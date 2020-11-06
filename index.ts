@@ -142,7 +142,7 @@ const app = (raetsel: string) => {
   });
 
   let lueken = new Lueken(matches, availableArr);
-  console.log(lueken.computeLueken().valueString);
+  output.next(lueken.computeLueken().valueString);
 };
 
 app(raetsel2);
