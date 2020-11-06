@@ -30,20 +30,16 @@ interface Given {
   char: string;
 }
 
-const allEqualAndValid = arr => {
-  return arr[0] && arr.length > 1 && arr.every(v => v === arr[0]);
-};
-
-class Lueken {
-  luekenArr: Lueke[];
+class luecken {
+  lueckenArr: luecke[];
   private availableArr: string[];
-  constructor(luekenArr: Lueke[], availableArr: string[]) {
-    this.luekenArr = luekenArr;
+  constructor(lueckenArr: luecke[], availableArr: string[]) {
+    this.lueckenArr = lueckenArr;
     this.availableArr = availableArr;
   }
   private allToPerfectMatch() {
-    this.luekenArr.forEach(e => e.toPerfectMatch(this.availableArr));
-    this.luekenArr.forEach(match => {
+    this.lueckenArr.forEach(e => e.toPerfectMatch(this.availableArr));
+    this.lueckenArr.forEach(match => {
       let value = match.value;
       if (value) {
         const index = this.availableArr.indexOf(value);
@@ -55,32 +51,32 @@ class Lueken {
     return this;
   }
   private get someNull() {
-    return this.luekenArr.some(e => typeof e.value != "string");
+    return this.lueckenArr.some(e => typeof e.value != "string");
   }
 
-  computeLueken() {
+  computeluecken() {
     while (this.someNull) {
       this.allToPerfectMatch();
     }
     return this;
   }
   get valueArray() {
-    return this.luekenArr.map(e => e.value);
+    return this.lueckenArr.map(e => e.value);
   }
   get valueString() {
     return this.valueArray.join(" ");
   }
 }
 
-class Lueke {
-  lueke: string;
+class luecke {
+  luecke: string;
   givenArr: Given[];
   value: string;
   index: number;
-  constructor(lueke: string, index: number) {
-    this.lueke = lueke;
+  constructor(luecke: string, index: number) {
+    this.luecke = luecke;
     this.index = index;
-    this.givenArr = this.lueke
+    this.givenArr = this.luecke
       .split("")
       .map((char, index) => ({
         atIndex: index,
@@ -91,7 +87,7 @@ class Lueke {
 
   private matchingwordsFromGiven(given: string[]): string[] {
     return given.filter(wort => {
-      let sameLen = wort.length == this.lueke.length;
+      let sameLen = wort.length == this.luecke.length;
       let couldMatch =
         this.givenArr.length == 0 ||
         this.givenArr.some(given => wort[given.atIndex] == given.char);
@@ -100,19 +96,22 @@ class Lueke {
   }
   toPerfectMatch(given: string[]) {
     let fromGiven = this.matchingwordsFromGiven(given);
-    if (fromGiven.length == 1 || allEqualAndValid(fromGiven)) {
+    if (fromGiven.length == 1 || this.allEqualAndValid(fromGiven)) {
       this.value = fromGiven[0];
       this;
     }
   }
+  private allEqualAndValid = arr => {
+    return arr[0] && arr.length > 1 && arr.every(v => v === arr[0]);
+  };
 }
 
-function getAllAccurancesof(array, search) {
-  return array.reduce(function(a, e, i) {
-    if (e === search) a.push(i);
-    return a;
-  }, []);
-}
+// function getAllAccurancesof(array, search) {
+//   return array.reduce(function(a, e, i) {
+//     if (e === search) a.push(i);
+//     return a;
+//   }, []);
+// }
 
 const app = (raetsel: string) => {
   output
@@ -126,10 +125,10 @@ const app = (raetsel: string) => {
       outputDiv.innerHTML = contructHTML(alt) + contructHTML(neu);
     });
   const DATA = raetsel.split("\n");
-  const LUEKENTEXT = DATA[0];
+  const lueckeNTEXT = DATA[0];
   const WOERTER = DATA[1];
 
-  let LArray = LUEKENTEXT.replace(/\W+/g, " ").split(" ");
+  let LArray = lueckeNTEXT.replace(/\W+/g, " ").split(" ");
 
   LArray.pop();
   console.log(LArray);
@@ -138,11 +137,11 @@ const app = (raetsel: string) => {
   let availableArr = [...WArray];
 
   let matches = LArray.map((l, index) => {
-    return new Lueke(l, index);
+    return new luecke(l, index);
   });
 
-  let lueken = new Lueken(matches, availableArr);
-  output.next(lueken.computeLueken().valueString);
+  let luecken = new luecken(matches, availableArr);
+  output.next(luecken.computeluecken().valueString);
 };
 
 app(raetsel2);
