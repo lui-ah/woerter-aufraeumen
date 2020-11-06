@@ -59,9 +59,9 @@ class Lueken {
   }
 
   computeLueken() {
-    while (this.someNull) {
-      this.allToPerfectMatch();
-    }
+    // while (this.someNull) {
+    this.allToPerfectMatch();
+    // }
     return this;
   }
   get valueArray() {
