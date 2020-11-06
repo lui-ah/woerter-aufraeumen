@@ -131,7 +131,6 @@ const app = (raetsel: string) => {
 
   let LArray = LUEKENTEXT.replace(/\W+/g, " ").split(" ");
 
-  let LArray = LUEKENTEXT.split(" ");
   LArray.pop();
   console.log(LArray);
   let WArray = WOERTER.split(" ");
