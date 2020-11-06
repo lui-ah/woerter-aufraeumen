@@ -30,10 +30,10 @@ interface Given {
   char: string;
 }
 
-class Lueken {
-  lueckenArr: Lueke[];
+class Luecken {
+  lueckenArr: Luecke[];
   private availableArr: string[];
-  constructor(lueckenArr: Lueke[], availableArr: string[]) {
+  constructor(lueckenArr: Luecke[], availableArr: string[]) {
     this.lueckenArr = lueckenArr;
     this.availableArr = availableArr;
   }
@@ -54,7 +54,7 @@ class Lueken {
     return this.lueckenArr.some(e => typeof e.value != "string");
   }
 
-  computeLueken() {
+  computeLuecken() {
     while (this.someNull) {
       this.allToPerfectMatch();
     }
@@ -68,7 +68,7 @@ class Lueken {
   }
 }
 
-class Lueke {
+class Luecke {
   luecke: string;
   givenArr: Given[];
   value: string;
@@ -128,20 +128,18 @@ const app = (raetsel: string) => {
   const LUECKENTEXT = DATA[0];
   const WOERTER = DATA[1];
 
-  let LArray = LUECKENTEXT.replace(/\W+/g, " ").split(" ");
+  let LArray = LUECKENTEXT.replace(/\W+/g, " ").split(" "); // TODO DATEN ÜBER SATZZEICHEN IN DER LUECKE KLASSE SPEICHERN
 
   LArray.pop();
   console.log(LArray);
   let WArray = WOERTER.split(" ");
 
-  let availableArr = [...WArray];
-
   let matches = LArray.map((l, index) => {
-    return new Lueke(l, index);
+    return new Luecke(l, index);
   });
 
-  let luecken = new Lueken(matches, availableArr);
-  output.next(luecken.computeLueken().valueString);
+  let luecken = new Luecken(matches, WArray);
+  output.next(luecken.computeLuecken().valueString);
 };
 
 app(raetsel2);
