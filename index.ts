@@ -30,10 +30,10 @@ interface Given {
   char: string;
 }
 
-class luecken {
-  lueckenArr: luecke[];
+class Lueken {
+  lueckenArr: Lueke[];
   private availableArr: string[];
-  constructor(lueckenArr: luecke[], availableArr: string[]) {
+  constructor(lueckenArr: Lueke[], availableArr: string[]) {
     this.lueckenArr = lueckenArr;
     this.availableArr = availableArr;
   }
@@ -54,7 +54,7 @@ class luecken {
     return this.lueckenArr.some(e => typeof e.value != "string");
   }
 
-  computeluecken() {
+  computeLueken() {
     while (this.someNull) {
       this.allToPerfectMatch();
     }
@@ -68,7 +68,7 @@ class luecken {
   }
 }
 
-class luecke {
+class Lueke {
   luecke: string;
   givenArr: Given[];
   value: string;
@@ -125,10 +125,10 @@ const app = (raetsel: string) => {
       outputDiv.innerHTML = contructHTML(alt) + contructHTML(neu);
     });
   const DATA = raetsel.split("\n");
-  const lueckeNTEXT = DATA[0];
+  const LUECKENTEXT = DATA[0];
   const WOERTER = DATA[1];
 
-  let LArray = lueckeNTEXT.replace(/\W+/g, " ").split(" ");
+  let LArray = LUECKENTEXT.replace(/\W+/g, " ").split(" ");
 
   LArray.pop();
   console.log(LArray);
@@ -137,11 +137,11 @@ const app = (raetsel: string) => {
   let availableArr = [...WArray];
 
   let matches = LArray.map((l, index) => {
-    return new luecke(l, index);
+    return new Lueke(l, index);
   });
 
-  let luecken = new luecken(matches, availableArr);
-  output.next(luecken.computeluecken().valueString);
+  let luecken = new Lueken(matches, availableArr);
+  output.next(luecken.computeLueken().valueString);
 };
 
 app(raetsel2);
