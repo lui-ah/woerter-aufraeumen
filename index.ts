@@ -78,7 +78,7 @@ class Lueke {
   value: string;
   index: number;
   constructor(lueke: string, index: number) {
-    this.lueke = lueke.replace(/\W+/g, " ");
+    this.lueke = lueke;
     this.index = index;
     this.givenArr = this.lueke
       .split("")
@@ -129,7 +129,7 @@ const app = (raetsel: string) => {
   const LUEKENTEXT = DATA[0];
   const WOERTER = DATA[1];
 
-  // let LArray = LUEKENTEXT.replace(/\W+/g, " ").split(" ");
+  let LArray = LUEKENTEXT.replace(/\W+/g, " ").split(" ");
 
   let LArray = LUEKENTEXT.split(" ");
   LArray.pop();
