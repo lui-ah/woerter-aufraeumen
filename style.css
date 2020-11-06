@@ -1,0 +1,7 @@
+* {
+  font-family: monospace;
+}
+.value {
+  display: flex;
+  flex-direction: column;
+}
